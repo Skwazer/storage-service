@@ -10,12 +10,14 @@ import org.mapstruct.Named;
 public interface StorageMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "bucketName", source = "dto", qualifiedByName="bucketNameMapper")
+    @Mapping(target = "bucketName", source = "dto", qualifiedByName = "bucketNameMapper")
     public StorageEntity toEntity(StorageDto dto);
 
     @Named("bucketNameMapper")
     default String mapBucketName(StorageDto dto) {
         return dto.getType().getName() + "-" + dto.getBucketName();
     }
+
+    StorageDto toDto(StorageEntity entity);
 
 }

@@ -1,6 +1,7 @@
 package com.epam.storageservice.service.database;
 
 import com.epam.storageservice.dto.StorageDto;
+import com.epam.storageservice.exception.StorageNotFoundException;
 import com.epam.storageservice.mapper.StorageMapper;
 import com.epam.storageservice.model.StorageEntity;
 import com.epam.storageservice.repository.StorageRepository;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.Set;
 import java.util.stream.StreamSupport;
 
@@ -34,8 +36,18 @@ public class StorageServiceImpl implements StorageService {
         return entity.getId();
     }
 
-    public Iterable<StorageEntity> getAllStorages() {
-        return repository.findAll();
+    public Collection<StorageDto> getAllStorages() {
+        Iterable<StorageEntity> storageEntities = repository.findAll();
+        return StreamSupport.stream(storageEntities.spliterator(), false)
+                .map(mapper::toDto)
+                .collect(toSet());
+    }
+
+    @Override
+    public StorageDto findStorage(Integer storageId) {
+        return repository.findById(storageId)
+                .map(mapper::toDto)
+                .orElseThrow(() -> new StorageNotFoundException("Cannot find storage with id: " + storageId));
     }
 
     @Override
@@ -60,5 +72,4 @@ public class StorageServiceImpl implements StorageService {
                 .collect(toSet());
         s3Service.deleteBuckets(bucketNames);
     }
-
 }

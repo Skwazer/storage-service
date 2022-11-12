@@ -9,6 +9,7 @@ import lombok.Value;
 @AllArgsConstructor
 public class StorageDto {
 
+    Integer id;
     StorageType type;
     String bucketName;
     String path;
