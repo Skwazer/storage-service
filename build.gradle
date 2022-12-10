@@ -29,6 +29,7 @@ subprojects {
         testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
 
         implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.hibernate:hibernate-validator:8.0.0.Final'
 
         implementation 'org.mapstruct:mapstruct:1.5.3.Final'
         annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'

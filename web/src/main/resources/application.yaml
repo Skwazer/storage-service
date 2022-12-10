@@ -3,6 +3,9 @@ server:
 security:
   basic:
     enable: false
+  jwt:
+    secret: secretKey
+    expirationMs: 86400000
 aws:
   region: us-west-1
   credentials:
@@ -17,9 +20,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/microservices
     username: postgres
     password: postgres
-  #  sql:
-  #    init:
-  #      mode: always
+  sql:
+    init:
+      mode: always
   jpa:
     show-sql: true
     properties:
@@ -29,6 +32,7 @@ spring:
     hibernate:
       format_sql: true
       ddl-auto: update
+    defer-datasource-initialization: true
   servlet:
     multipart:
       max-file-size: 50MB
